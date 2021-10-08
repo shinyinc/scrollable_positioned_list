@@ -3,4 +3,5 @@
 // found in the LICENSE file.
 
 export 'src/item_positions_listener.dart';
+export 'src/item_positions_notifier.dart';
 export 'src/scrollable_positioned_list.dart';
