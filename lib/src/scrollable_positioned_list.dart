@@ -619,10 +619,22 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
     ]);
   }
 
+  bool _isValidPosition(ItemPosition position) {
+    if (position.itemLeadingEdge == 0.0 && position.itemTrailingEdge == 0.0) {
+      return true;
+    }
+
+    if (position.itemLeadingEdge == 1.0 && position.itemTrailingEdge == 1.0) {
+      return true;
+    }
+
+    return position.itemLeadingEdge < 1 && position.itemTrailingEdge > 0;
+  }
+
   void _updatePositions() {
     final itemPositions = primary.itemPositionsNotifier.itemPositions.value
-        .where((ItemPosition position) =>
-            position.itemLeadingEdge < 1 && position.itemTrailingEdge > 0);
+        .where(_isValidPosition);
+
     if (itemPositions.isNotEmpty) {
       PageStorage.of(context).writeState(
           context,
