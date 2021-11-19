@@ -493,7 +493,6 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
       index = widget.itemCount - 1;
     }
 
-    _resetInitialCenterIndex();
     if (_isTransitioning) {
       _stopScroll(canceled: true);
       SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -562,6 +561,9 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
               .animateTo(0, duration: duration, curve: curve));
         });
       };
+
+      _resetInitialCenterIndex();
+
       setState(() {
         // TODO: _startScroll can be re-entrant, which invalidates this assert.
         // assert(!_isTransitioning);
