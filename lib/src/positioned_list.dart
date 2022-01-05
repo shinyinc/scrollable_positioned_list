@@ -25,25 +25,26 @@ import 'scroll_view.dart';
 /// All other parameters are the same as specified in [ListView].
 class PositionedList extends StatefulWidget {
   /// Create a [PositionedList].
-  const PositionedList({
-    @required this.itemCount,
-    @required this.itemBuilder,
-    this.separatorBuilder,
-    this.controller,
-    this.itemPositionsNotifier,
-    this.positionedIndex = 0,
-    this.alignment = 0,
-    this.scrollDirection = Axis.vertical,
-    this.reverse = false,
-    this.physics,
-    this.padding,
-    this.cacheExtent,
-    this.semanticChildCount,
-    this.findChildIndexCallback,
-    this.addSemanticIndexes = true,
-    this.addRepaintBoundaries = true,
-    this.addAutomaticKeepAlives = true,
-  })  : assert(itemCount != null),
+  const PositionedList(
+      {@required this.itemCount,
+      @required this.itemBuilder,
+      this.separatorBuilder,
+      this.controller,
+      this.itemPositionsNotifier,
+      this.positionedIndex = 0,
+      this.alignment = 0,
+      this.scrollDirection = Axis.vertical,
+      this.reverse = false,
+      this.physics,
+      this.padding,
+      this.cacheExtent,
+      this.semanticChildCount,
+      this.findChildIndexCallback,
+      this.addSemanticIndexes = true,
+      this.addRepaintBoundaries = true,
+      this.addAutomaticKeepAlives = true,
+      this.shrinkWrap = false})
+      : assert(itemCount != null),
         assert(itemBuilder != null),
         assert((positionedIndex == 0) || (positionedIndex < itemCount));
 
@@ -125,6 +126,15 @@ class PositionedList extends StatefulWidget {
   /// [findChildIndexCallback].
   final int Function(Key) findChildIndexCallback;
 
+  /// {@template flutter.widgets.scroll_view.shrinkWrap}
+  /// Whether the extent of the scroll view in the [scrollDirection] should be
+  /// determined by the contents being viewed.
+  ///
+  ///  Defaults to false.
+  ///
+  /// See [ScrollView.shrinkWrap].
+  final bool shrinkWrap;
+
   @override
   State<StatefulWidget> createState() => _PositionedListState();
 }
@@ -171,6 +181,7 @@ class _PositionedListState extends State<PositionedList> {
           reverse: widget.reverse,
           cacheExtent: widget.cacheExtent,
           physics: widget.physics,
+          shrinkWrap: widget.shrinkWrap,
           semanticChildCount: widget.semanticChildCount ?? widget.itemCount,
           slivers: <Widget>[
             if (widget.positionedIndex > 0)

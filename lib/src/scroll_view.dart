@@ -5,7 +5,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-
+import 'wrapping.dart';
 import 'viewport.dart';
 
 /// A version of [CustomScrollView] that allows does not constrict the extents
@@ -26,6 +26,7 @@ class UnboundedCustomScrollView extends CustomScrollView {
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
   })  : _anchor = anchor,
+        _shrinkWrap = shrinkWrap,
         super(
           key: key,
           scrollDirection: scrollDirection,
@@ -45,6 +46,8 @@ class UnboundedCustomScrollView extends CustomScrollView {
   // we need our own version.
   final double _anchor;
 
+  final bool _shrinkWrap;
+
   @override
   double get anchor => _anchor;
 
@@ -57,11 +60,14 @@ class UnboundedCustomScrollView extends CustomScrollView {
     AxisDirection axisDirection,
     List<Widget> slivers,
   ) {
-    if (shrinkWrap) {
-      return ShrinkWrappingViewport(
+    if (_shrinkWrap) {
+      return CustomShrinkWrappingViewport(
         axisDirection: axisDirection,
         offset: offset,
         slivers: slivers,
+        cacheExtent: cacheExtent,
+        center: center,
+        anchor: anchor,
       );
     }
     return UnboundedViewport(
