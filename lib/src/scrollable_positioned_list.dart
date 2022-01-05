@@ -51,6 +51,7 @@ class ScrollablePositionedList extends StatefulWidget {
     this.addRepaintBoundaries = true,
     this.minCacheExtent,
     this.findChildIndexCallback,
+    this.shrinkWrap = false,
   })  : assert(itemCount != null),
         assert(itemBuilder != null),
         itemPositionsNotifier = itemPositionsListener,
@@ -79,6 +80,7 @@ class ScrollablePositionedList extends StatefulWidget {
     this.addRepaintBoundaries = true,
     this.minCacheExtent,
     this.findChildIndexCallback,
+    this.shrinkWrap = false,
   })  : assert(itemCount != null),
         assert(itemBuilder != null),
         assert(separatorBuilder != null),
@@ -87,26 +89,27 @@ class ScrollablePositionedList extends StatefulWidget {
         super(key: key);
 
   /// Create a bidirectional [ScrollablePositionedList].
-  const ScrollablePositionedList.bidirectional({
-    Key key,
-    @required this.itemCount,
-    @required this.itemBuilder,
-    @required this.centerIndex,
-    this.itemScrollController,
-    ItemPositionsListener itemPositionsListener,
-    this.initialScrollIndex = 0,
-    this.initialAlignment = 0,
-    this.scrollDirection = Axis.vertical,
-    this.reverse = false,
-    this.physics,
-    this.semanticChildCount,
-    this.padding,
-    this.addSemanticIndexes = true,
-    this.addAutomaticKeepAlives = true,
-    this.addRepaintBoundaries = true,
-    this.minCacheExtent,
-    this.findChildIndexCallback,
-  })  : assert(itemCount != null),
+  const ScrollablePositionedList.bidirectional(
+      {Key key,
+      @required this.itemCount,
+      @required this.itemBuilder,
+      @required this.centerIndex,
+      this.itemScrollController,
+      ItemPositionsListener itemPositionsListener,
+      this.initialScrollIndex = 0,
+      this.initialAlignment = 0,
+      this.scrollDirection = Axis.vertical,
+      this.reverse = false,
+      this.physics,
+      this.semanticChildCount,
+      this.padding,
+      this.addSemanticIndexes = true,
+      this.addAutomaticKeepAlives = true,
+      this.addRepaintBoundaries = true,
+      this.minCacheExtent,
+      this.findChildIndexCallback,
+      this.shrinkWrap = false})
+      : assert(itemCount != null),
         assert(itemBuilder != null),
         itemPositionsNotifier = itemPositionsListener,
         separatorBuilder = null,
@@ -152,6 +155,15 @@ class ScrollablePositionedList extends StatefulWidget {
   ///
   /// See [ScrollView.reverse].
   final bool reverse;
+
+  /// {@template flutter.widgets.scroll_view.shrinkWrap}
+  /// Whether the extent of the scroll view in the [scrollDirection] should be
+  /// determined by the contents being viewed.
+  ///
+  ///  Defaults to false.
+  ///
+  /// See [ScrollView.shrinkWrap].
+  final bool shrinkWrap;
 
   /// How the scroll view should respond to user input.
   ///
@@ -413,6 +425,7 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
                   scrollDirection: widget.scrollDirection,
                   reverse: widget.reverse,
                   alignment: primary.alignment,
+                  shrinkWrap: widget.shrinkWrap,
                   physics: _isTransitioning
                       ? ClampingScrollPhysics()
                       : widget.physics,
@@ -445,6 +458,7 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
                     scrollDirection: widget.scrollDirection,
                     reverse: widget.reverse,
                     alignment: secondary.alignment,
+                    shrinkWrap: widget.shrinkWrap,
                     physics: _isTransitioning
                         ? ClampingScrollPhysics()
                         : widget.physics,
